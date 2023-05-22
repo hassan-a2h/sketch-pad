@@ -1,9 +1,33 @@
+
+button {
+  padding: 10px 20px;
+  margin: 10px 0px;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  background: linear-gradient(to bottom right, #1A5F7A, #002B5B);
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
 .container {
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 100px;
 }
 
 .canvas {
   height: 800px;
   width: 800px;
+  box-shadow: 0px 0px 8px 0.5px #666666;
+}
+
+.color-white {
+  background-color: white;
 }

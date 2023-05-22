@@ -1,6 +1,8 @@
-let canvasSize = 8;
+let canvasSize = 32;
+let selectedColor = '#000000';
 
-const inputButton = document.getElementById('input');
+// For User to define Canvas size
+const inputButton = document.querySelector('#input');
 inputButton.addEventListener('click', () => {
   do {
     canvasSize = Number(prompt('Size', 8));
@@ -17,27 +19,46 @@ inputButton.addEventListener('click', () => {
     }
   } while (true);
 
+  const diplayCanvasSize = document.querySelector('#current-grid-size');
+  diplayCanvasSize.textContent = `${canvasSize} X ${canvasSize}`;
   clearGrid();
   displayGrid();
+  drawOnGrid();
 });
+
+const clearCanvas = document.querySelector('#clear-canvas');
+clearCanvas.addEventListener('click', (e) => {
+  const gridElements = document.querySelectorAll('.grid-element');
+  gridElements.forEach((gridElement) => {
+      if (gridElement.classList.contains('color-black')) {
+        gridElement.classList.add('color-white');
+        gridElement.classList.remove('color-black');
+        gridElement.style.cssText += `background-color: #FFFFFF`;
+      }
+  });
+});
+
+// For color change
+const activeColor = document.querySelector('#color-picker');
+activeColor.addEventListener('change', (e) => {
+  selectedColor = activeColor.value;
+})
 
 // Driver Code
 displayGrid();
+drawOnGrid();
 
 // Functions
 function displayGrid() {
-  let boxSize = Math.floor(800 / canvasSize),
-    spacing = Math.floor(boxSize / 8);
-  boxSize -= spacing;
+  let boxSize = Math.floor(800 / canvasSize);
 
   const canvas = document.querySelector('.canvas');
-  canvas.style.cssText += `display: flex; flex-wrap: wrap; gap: ${spacing}px; `;
+  canvas.style.cssText += `display: flex; flex-wrap: wrap;`;
 
   for (let i = 0; i < canvasSize * canvasSize; i++) {
     const box = document.createElement('div');
-    box.classList.add('grid-element');
-    box.setAttribute('style', `height: ${boxSize}px; width: ${boxSize}px;\
-    color: white; box-shadow: 0px 0px 2px 0.5px black`);
+    box.classList.add('grid-element', 'color-white');
+    box.setAttribute('style', `height: ${boxSize}px; width: ${boxSize}px;`);
     canvas.appendChild(box);
   }
 }
@@ -49,4 +70,18 @@ function clearGrid() {
       gridElement.remove();
     });
   }
+}
+
+// Adds event listeners to change grid color on hover
+function drawOnGrid() {
+  const gridElements = document.querySelectorAll('.grid-element');
+  gridElements.forEach((gridElement) => {
+    gridElement.addEventListener('mouseenter', (e) => {
+      if (e.target.classList.contains('color-white')) {
+        e.target.classList.remove('color-white');
+        e.target.classList.add('color-black');
+        e.target.style.cssText += `background-color: ${selectedColor}`;
+      }
+    });
+  })
 }
