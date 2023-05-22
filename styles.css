@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.canvas {
+  height: 800px;
+  width: 800px;
+  background-color: bisque;
+}
